@@ -1,0 +1,18 @@
+// Resets.
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  // Equates 1rem with 10px.
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Titillum", "Verdana", sans-serif;
+}

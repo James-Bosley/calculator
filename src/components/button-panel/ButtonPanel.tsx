@@ -1,9 +1,11 @@
 import { FC, Dispatch, SetStateAction } from "react";
 import { MathOperators } from "../../App";
 
-import NumberButton from "../number-button/NumberButton";
-import OperatorButton from "../operator-button/OperatorButton";
-import ActionButton from "../action-button/ActionButton";
+import NumberButton from "../buttons/number-button/NumberButton";
+import OperatorButton from "../buttons/operator-button/OperatorButton";
+import ActionButton from "../buttons/action-button/ActionButton";
+
+import "./buttonPanel.scss";
 
 interface Props {
   setCurrentInput: Dispatch<SetStateAction<number>>;
@@ -67,7 +69,7 @@ const ButtonPanel: FC<Props> = ({ setCurrentInput, setPreviousInput, setOperator
 
         <OperatorButton type="add" setOperator={setOperator} />
       </div>
-      <div className="button-panel__row">
+      <div className="button-panel__row button-panel__row--last">
         <NumberButton value="0" handleClick={handleNumClick} />
 
         <ActionButton type="evaluate" action={calculate} />

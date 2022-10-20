@@ -1,0 +1,38 @@
+@use "./colors" as *;
+@use "./breakpoints" as *;
+
+@font-face {
+  font-family: "Titillum";
+  src: url("../assets/fonts/TitilliumWeb-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "Titillum";
+  src: url("../assets/fonts/TitilliumWeb-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback;
+}
+
+// Declare font with fallback options.
+
+$primary-font: "Titillum", "Verdana", sans-serif;
+
+// Creates fonts with a mobile first context.
+
+@mixin button-text($color: $primary-color-dark) {
+  font-family: $primary-font;
+  color: $color;
+  font-weight: 400;
+  font-size: 2rem;
+}
+
+@mixin display-text($color: $primary-color-dark) {
+  font-family: $primary-font;
+  color: $color;
+  font-weight: 600;
+  font-size: 2rem;
+}

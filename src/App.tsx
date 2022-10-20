@@ -4,7 +4,10 @@ import toast, { Toaster } from "react-hot-toast";
 import ButtonPanel from "./components/button-panel/ButtonPanel";
 import Display from "./components/display/Display";
 
+import "./app.scss";
+
 export type MathOperators = "add" | "subtract" | "multiply" | "divide";
+export type ActionTypes = "c" | "ce" | "backspace" | "evaluate";
 
 const App: FC = () => {
   const [currentInput, setCurrentInput] = useState<number>(0);
@@ -92,19 +95,21 @@ const App: FC = () => {
   }, [calculate, handleSetOperator]);
 
   return (
-    <div className="calculator">
-      <Toaster />
-      <Display
-        currentInput={currentInput}
-        previousInput={previousInput}
-        setCurrentInput={setCurrentInput}
-      />
-      <ButtonPanel
-        setCurrentInput={setCurrentInput}
-        setPreviousInput={setPreviousInput}
-        setOperator={handleSetOperator}
-        calculate={calculate}
-      />
+    <div className="app">
+      <div className="calculator">
+        <Toaster />
+        <Display
+          currentInput={currentInput}
+          previousInput={previousInput}
+          setCurrentInput={setCurrentInput}
+        />
+        <ButtonPanel
+          setCurrentInput={setCurrentInput}
+          setPreviousInput={setPreviousInput}
+          setOperator={handleSetOperator}
+          calculate={calculate}
+        />
+      </div>
     </div>
   );
 };

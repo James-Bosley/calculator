@@ -1,5 +1,7 @@
 import { FC, Dispatch, SetStateAction, ChangeEvent, FormEvent } from "react";
 
+import "./display.scss";
+
 interface Props {
   currentInput: number | null;
   previousInput: number | null;
@@ -7,7 +9,7 @@ interface Props {
 }
 
 const Display: FC<Props> = ({ currentInput, previousInput, setCurrentInput }) => {
-  // Placeholder value is used to display an indermediate value of the calculation.
+  // Placeholder value is used to display the intermediate value of the calculation.
   const getPlaceholder = () => {
     if (currentInput === 0 && previousInput) {
       return previousInput.toString();
