@@ -1,5 +1,4 @@
 import { FC, useEffect, useState, useCallback } from "react";
-import toast, { Toaster } from "react-hot-toast";
 
 import ButtonPanel from "./components/button-panel/ButtonPanel";
 import Display from "./components/display/Display";
@@ -36,16 +35,15 @@ const App: FC = () => {
           calculatedResult = currentInput;
       }
 
-      if (Number.isSafeInteger(calculatedResult)) {
-        if (isChained) {
-          setCurrentInput(0);
-          setPreviousInput(calculatedResult);
-        } else {
-          setCurrentInput(calculatedResult);
-          setPreviousInput(null);
-        }
+      calculatedResult = Number(calculatedResult.toFixed(2));
+
+      if (isChained) {
+        setCurrentInput(0);
+        setPreviousInput(calculatedResult);
       } else {
-        toast.error("Result is larger than JavaScript's ability to safely calculate.");
+        setCurrentInput(calculatedResult);
+        setPreviousInput(null);
+        setOperator(null);
       }
     },
     [currentInput, previousInput, operator]
@@ -97,7 +95,6 @@ const App: FC = () => {
   return (
     <div className="app">
       <div className="calculator">
-        <Toaster />
         <Display
           currentInput={currentInput}
           previousInput={previousInput}
@@ -106,6 +103,7 @@ const App: FC = () => {
         <ButtonPanel
           setCurrentInput={setCurrentInput}
           setPreviousInput={setPreviousInput}
+          operator={operator}
           setOperator={handleSetOperator}
           calculate={calculate}
         />

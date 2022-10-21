@@ -18,6 +18,7 @@ const ActionButton: FC<Props> = ({ type, action }) => {
 
   return (
     <div className="button__container">
+      {/* "Action" is invoked in an anonymous function as we do not want to pass the event object. */}
       <button className="button button--action" type="button" onClick={() => action()}>
         {symbols[type]}
       </button>

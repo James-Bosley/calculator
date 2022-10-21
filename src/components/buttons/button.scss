@@ -6,32 +6,37 @@
   height: 5rem;
   border: none;
   border-radius: 40%;
+  outline: none;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.3);
 
   &__container {
     padding: 0.6rem;
   }
 
   &--action {
-    color: $primary-color-brand;
+    font-weight: 600;
   }
 
   &--operator {
-    color: $primary-color-brand;
+    font-weight: 600;
+  }
+
+  &--selected {
+    border: 2px solid orange;
   }
 
   &:hover {
     font-weight: 600;
     transform: translate(-1px, -1px);
-    box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 3px 3px 4px 0px rgba(0, 0, 0, 0.3);
   }
 
   &:active {
     transform: translate(1px, 1px);
-    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
   }
 }
