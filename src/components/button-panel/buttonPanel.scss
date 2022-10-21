@@ -1,0 +1,12 @@
+.button-panel {
+  &__row {
+    display: flex;
+    justify-content: center;
+
+    &--last {
+      & > * {
+        margin-left: auto;
+      }
+    }
+  }
+}

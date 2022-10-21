@@ -1,0 +1,41 @@
+@use "../../styles/" as *;
+
+.display {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  margin: 0.8rem auto 2.4rem auto;
+
+  &__input {
+    @include display-text;
+    height: 5rem;
+    padding: 0 1.4rem;
+    border: none;
+    border-radius: 1.2rem;
+    box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
+    text-align: right;
+    outline: none;
+    overflow-x: scroll;
+
+    &::placeholder {
+      @include display-text;
+    }
+
+    @include media-tablet {
+      height: 6rem;
+    }
+  }
+}
+
+// Remove increment/decrement arrows from input.
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: none;
+  -moz-appearance: textfield;
+}

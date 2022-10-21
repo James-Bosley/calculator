@@ -1,26 +1,118 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { FC, useEffect, useState, useCallback } from "react";
 
-function App() {
+import ButtonPanel from "./components/button-panel/ButtonPanel";
+import Display from "./components/display/Display";
+
+import "./app.scss";
+
+export type MathOperators = "add" | "subtract" | "multiply" | "divide";
+export type ActionTypes = "c" | "ce" | "backspace" | "evaluate";
+
+const App: FC = () => {
+  const [currentInput, setCurrentInput] = useState<number | null>(0);
+  const [previousInput, setPreviousInput] = useState<number | null>(null);
+  const [result, setResult] = useState<number | null>(null);
+  const [operator, setOperator] = useState<MathOperators | null>(null);
+
+  const calculate = useCallback(
+    (chained: boolean = false) => {
+      if (currentInput === null) return;
+      if (previousInput === null) {
+        setResult(currentInput);
+        return;
+      }
+
+      let calculatedResult: number;
+      const firstOperand = result || previousInput;
+
+      switch (operator) {
+        case "add":
+          calculatedResult = firstOperand + currentInput;
+          break;
+        case "subtract":
+          calculatedResult = firstOperand - currentInput;
+          break;
+        case "multiply":
+          calculatedResult = firstOperand * currentInput;
+          break;
+        case "divide":
+          calculatedResult = firstOperand / currentInput;
+          break;
+        default:
+          calculatedResult = currentInput;
+      }
+
+      setResult(calculatedResult);
+      setCurrentInput(null);
+      setPreviousInput(currentInput);
+
+      if (!chained) {
+        setOperator(null);
+      }
+    },
+    [currentInput, previousInput, result, operator]
+  );
+
+  const handleSetOperator = useCallback(
+    (operator: MathOperators | null) => {
+      // This allows selection of the next operator to complete the previous calculation and
+      // thus chain mathmatical operations.
+      if (previousInput && currentInput) {
+        calculate(true);
+      } else {
+        setPreviousInput(currentInput);
+        setCurrentInput(null);
+      }
+
+      setOperator(operator);
+    },
+    [previousInput, currentInput, calculate]
+  );
+
+  useEffect(() => {
+    const keydownListener = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case "Enter":
+          calculate();
+          break;
+        case "+":
+          handleSetOperator("add");
+          break;
+        case "-":
+          handleSetOperator("subtract");
+          break;
+        case "*":
+          handleSetOperator("multiply");
+          break;
+        case "/":
+          handleSetOperator("divide");
+          break;
+        default:
+          return;
+      }
+    };
+
+    window.addEventListener("keydown", keydownListener);
+
+    return () => window.removeEventListener("keydown", keydownListener);
+  }, [calculate, handleSetOperator]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div className="calculator">
+        <Display currentInput={currentInput} setCurrentInput={setCurrentInput} result={result} />
+        <ButtonPanel
+          setCurrentInput={setCurrentInput}
+          setPreviousInput={setPreviousInput}
+          setResult={setResult}
+          operator={operator}
+          setOperator={handleSetOperator}
+          calculate={calculate}
+        />
+      </div>
+      <footer className="footer">&copy;{new Date().getFullYear()} James Bosley</footer>
     </div>
   );
-}
+};
 
 export default App;
