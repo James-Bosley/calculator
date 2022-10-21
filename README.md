@@ -3,6 +3,10 @@
 This web application is a calculator that provides the ability to complete simple mathematical operations. Specifically: addition, subtraction, multiplication and division.
 It also supports the chaining of these operations without the need to use the equals button.
 
+## Technology
+
+This project is a SPA created using React, initially built using create-react-app. It is primarily written in TypeScript and makes use of sass for styling.
+
 ## Running the App
 
 To run this app locally you can clone this repo and run the following command in your terminal. This will download dependency files and start the project.
