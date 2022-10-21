@@ -42,8 +42,6 @@ const App: FC = () => {
           calculatedResult = currentInput;
       }
 
-      calculatedResult = Number(calculatedResult.toFixed(2));
-
       setResult(calculatedResult);
       setCurrentInput(null);
       setPreviousInput(currentInput);
@@ -57,8 +55,8 @@ const App: FC = () => {
 
   const handleSetOperator = useCallback(
     (operator: MathOperators | null) => {
-      // This allows selection of the operator to complete the previous calculation and
-      // chain mathmatical operations.
+      // This allows selection of the next operator to complete the previous calculation and
+      // thus chain mathmatical operations.
       if (previousInput && currentInput) {
         calculate(true);
       } else {
@@ -112,6 +110,7 @@ const App: FC = () => {
           calculate={calculate}
         />
       </div>
+      <footer className="footer">&copy;{new Date().getFullYear()} James Bosley</footer>
     </div>
   );
 };

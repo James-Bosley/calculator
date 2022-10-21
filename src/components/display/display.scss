@@ -15,6 +15,7 @@
     box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.3);
     text-align: right;
     outline: none;
+    overflow-x: scroll;
 
     &::placeholder {
       @include display-text;

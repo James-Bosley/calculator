@@ -12,7 +12,11 @@ const Display: FC<Props> = ({ currentInput, result, setCurrentInput }) => {
   // Placeholder value is used to display the result of a calculation.
   const getPlaceholder = () => {
     if (result !== null) {
-      return result.toString();
+      if (Number.isInteger(result)) {
+        return result.toString();
+      } else {
+        return result.toFixed(2).toString();
+      }
     }
     return "";
   };
