@@ -17,10 +17,7 @@
     padding: 0.6rem;
   }
 
-  &--action {
-    font-weight: 600;
-  }
-
+  &--action,
   &--operator {
     font-weight: 600;
   }
@@ -38,5 +35,11 @@
   &:active {
     transform: translate(1px, 1px);
     box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  @include media-tablet {
+    width: 6rem;
+    height: 6rem;
+    margin: 0.4rem;
   }
 }

@@ -1,13 +1,13 @@
 @use "../../styles/" as *;
 
 .display {
+  width: 80%;
   display: flex;
   justify-content: center;
-  margin: 0.8rem 0 2.4rem 0;
+  margin: 0.8rem auto 2.4rem auto;
 
   &__input {
     @include display-text;
-    width: 80%;
     height: 5rem;
     padding: 0 1.4rem;
     border: none;
@@ -19,6 +19,10 @@
 
     &::placeholder {
       @include display-text;
+    }
+
+    @include media-tablet {
+      height: 6rem;
     }
   }
 }
