@@ -8,10 +8,11 @@ import ActionButton from "../buttons/action-button/ActionButton";
 import "./buttonPanel.scss";
 
 interface Props {
-  setCurrentInput: Dispatch<SetStateAction<number>>;
+  setCurrentInput: Dispatch<SetStateAction<number | null>>;
   setPreviousInput: Dispatch<SetStateAction<number | null>>;
   operator: MathOperators | null;
   setOperator: (operator: MathOperators | null) => void;
+  setResult: Dispatch<SetStateAction<number | null>>;
   calculate: () => void;
 }
 
@@ -20,30 +21,40 @@ const ButtonPanel: FC<Props> = ({
   setPreviousInput,
   operator,
   setOperator,
+  setResult,
   calculate,
 }) => {
   const handleNumClick = (value: string) => {
     setCurrentInput(prevState => {
-      const newNumString = prevState.toString() + value;
-      return Number(newNumString);
+      if (prevState) {
+        const newNumString = prevState.toString() + value;
+        return Number(newNumString);
+      } else {
+        return Number(value);
+      }
     });
   };
 
   const handleBackspace = () => {
     setCurrentInput(prevState => {
-      const newNumString = prevState.toString().slice(0, -1);
-      return Number(newNumString);
+      if (prevState) {
+        const newNumString = prevState.toString().slice(0, -1);
+        return Number(newNumString);
+      } else {
+        return null;
+      }
     });
   };
 
   const clearEntry = () => {
-    setCurrentInput(0);
+    setCurrentInput(null);
   };
 
   const clear = () => {
-    setCurrentInput(0);
     setPreviousInput(null);
+    setCurrentInput(null);
     setOperator(null);
+    setResult(null);
   };
 
   return (

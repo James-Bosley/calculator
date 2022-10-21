@@ -4,20 +4,20 @@ import "./display.scss";
 
 interface Props {
   currentInput: number | null;
-  previousInput: number | null;
-  setCurrentInput: Dispatch<SetStateAction<number>>;
+  setCurrentInput: Dispatch<SetStateAction<number | null>>;
+  result: number | null;
 }
 
-const Display: FC<Props> = ({ currentInput, previousInput, setCurrentInput }) => {
-  // Placeholder value is used to display the intermediate value of the calculation.
+const Display: FC<Props> = ({ currentInput, result, setCurrentInput }) => {
+  // Placeholder value is used to display the result of a calculation.
   const getPlaceholder = () => {
-    if (currentInput === 0 && previousInput) {
-      return previousInput.toString();
+    if (result !== null) {
+      return result.toString();
     }
     return "";
   };
 
-  // Typeof "+" and "-" is number when used in an input element. As we don't want these to appear,
+  // Typeof "+" is number when used in an input element. As we don't want these to appear,
   // in the input field, the default behaviour is overridden.
   const handleBeforeInput = (e: FormEvent<HTMLInputElement>) => {
     if (e.nativeEvent.data === "+" || e.nativeEvent.data === "-") {

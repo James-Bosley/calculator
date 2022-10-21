@@ -9,27 +9,34 @@ export type MathOperators = "add" | "subtract" | "multiply" | "divide";
 export type ActionTypes = "c" | "ce" | "backspace" | "evaluate";
 
 const App: FC = () => {
-  const [currentInput, setCurrentInput] = useState<number>(0);
+  const [currentInput, setCurrentInput] = useState<number | null>(0);
   const [previousInput, setPreviousInput] = useState<number | null>(null);
+  const [result, setResult] = useState<number | null>(null);
   const [operator, setOperator] = useState<MathOperators | null>(null);
 
   const calculate = useCallback(
-    (isChained: boolean = false) => {
-      if (!previousInput) return;
+    (chained: boolean = false) => {
+      if (currentInput === null) return;
+      if (previousInput === null) {
+        setResult(currentInput);
+        return;
+      }
+
       let calculatedResult: number;
+      const firstOperand = result || previousInput;
 
       switch (operator) {
         case "add":
-          calculatedResult = previousInput + currentInput;
+          calculatedResult = firstOperand + currentInput;
           break;
         case "subtract":
-          calculatedResult = previousInput - currentInput;
+          calculatedResult = firstOperand - currentInput;
           break;
         case "multiply":
-          calculatedResult = previousInput * currentInput;
+          calculatedResult = firstOperand * currentInput;
           break;
         case "divide":
-          calculatedResult = previousInput / currentInput;
+          calculatedResult = firstOperand / currentInput;
           break;
         default:
           calculatedResult = currentInput;
@@ -37,31 +44,31 @@ const App: FC = () => {
 
       calculatedResult = Number(calculatedResult.toFixed(2));
 
-      if (isChained) {
-        setCurrentInput(0);
-        setPreviousInput(calculatedResult);
-      } else {
-        setCurrentInput(calculatedResult);
-        setPreviousInput(null);
+      setResult(calculatedResult);
+      setCurrentInput(null);
+      setPreviousInput(currentInput);
+
+      if (!chained) {
         setOperator(null);
       }
     },
-    [currentInput, previousInput, operator]
+    [currentInput, previousInput, result, operator]
   );
 
   const handleSetOperator = useCallback(
     (operator: MathOperators | null) => {
-      setOperator(operator);
-      if (!operator) return;
-
-      if (previousInput && currentInput > 0) {
+      // This allows selection of the operator to complete the previous calculation and
+      // chain mathmatical operations.
+      if (previousInput && currentInput) {
         calculate(true);
       } else {
         setPreviousInput(currentInput);
-        setCurrentInput(0);
+        setCurrentInput(null);
       }
+
+      setOperator(operator);
     },
-    [calculate, currentInput, previousInput]
+    [previousInput, currentInput, calculate]
   );
 
   useEffect(() => {
@@ -95,14 +102,11 @@ const App: FC = () => {
   return (
     <div className="app">
       <div className="calculator">
-        <Display
-          currentInput={currentInput}
-          previousInput={previousInput}
-          setCurrentInput={setCurrentInput}
-        />
+        <Display currentInput={currentInput} setCurrentInput={setCurrentInput} result={result} />
         <ButtonPanel
           setCurrentInput={setCurrentInput}
           setPreviousInput={setPreviousInput}
+          setResult={setResult}
           operator={operator}
           setOperator={handleSetOperator}
           calculate={calculate}
