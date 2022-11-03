@@ -16,7 +16,7 @@ Alternatively the app is deployed for use at [calc-and-go.surge.sh](https://calc
 ## Limitations and Future Development
 
 As this application runs all calculations using built-in JavaScript arithmetic operators and number type, all calculations are therefore limited by the maximum and minimum values safe values allowed by the language. You can read more about this [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number#integer_range_for_number).  
-Future development could see the numbers stored "safely", with a library such as [big-number](https://www.npmjs.com/package/big-number) utilised to perform the mathematical operations. Alternatively, a solution could be derived using the relatively new built-in bigint type.
+Future development could see the numbers stored "safely" as a string, with a library such as [big-number](https://www.npmjs.com/package/big-number) utilised to perform the mathematical operations. Alternatively, a solution could be derived using the relatively new built-in bigint type.
 
 There is also no current support for the input of negative numbers, although negative results will be accurately displayed.
 
