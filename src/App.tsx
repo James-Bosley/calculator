@@ -1,4 +1,5 @@
 import { FC, useEffect, useState, useCallback } from "react";
+import { Toaster, toast } from "react-hot-toast";
 
 import ButtonPanel from "./components/button-panel/ButtonPanel";
 import Display from "./components/display/Display";
@@ -7,6 +8,44 @@ import "./app.scss";
 
 export type MathOperators = "add" | "subtract" | "multiply" | "divide";
 export type ActionTypes = "c" | "ce" | "backspace" | "evaluate";
+
+export const calculateResult = (
+  firstOperand: number,
+  secondOperand: number,
+  operator: MathOperators
+): number => {
+  if (typeof firstOperand !== "number" || typeof secondOperand !== "number") {
+    throw new Error("Operands must be passed as type Number");
+  }
+
+  if (!Number.isSafeInteger(firstOperand)) {
+    throw new Error("Unsafe number passed: " + firstOperand);
+  }
+  if (!Number.isSafeInteger(secondOperand)) {
+    throw new Error("Unsafe number passed: " + secondOperand);
+  }
+
+  let result: number;
+
+  switch (operator) {
+    case "add":
+      result = firstOperand + secondOperand;
+      break;
+    case "subtract":
+      result = firstOperand - secondOperand;
+      break;
+    case "multiply":
+      result = firstOperand * secondOperand;
+      break;
+    case "divide":
+      result = firstOperand / secondOperand;
+      break;
+    default:
+      throw new Error("Unrecognised operator: " + operator);
+  }
+
+  return result;
+};
 
 const App: FC = () => {
   const [currentInput, setCurrentInput] = useState<number | null>(0);
@@ -17,34 +56,25 @@ const App: FC = () => {
   const calculate = useCallback(
     (chained: boolean = false) => {
       if (currentInput === null) return;
-      if (previousInput === null) {
+
+      if (previousInput === null || operator === null) {
         setResult(currentInput);
         return;
       }
 
-      let calculatedResult: number;
       const firstOperand = result || previousInput;
 
-      switch (operator) {
-        case "add":
-          calculatedResult = firstOperand + currentInput;
-          break;
-        case "subtract":
-          calculatedResult = firstOperand - currentInput;
-          break;
-        case "multiply":
-          calculatedResult = firstOperand * currentInput;
-          break;
-        case "divide":
-          calculatedResult = firstOperand / currentInput;
-          break;
-        default:
-          calculatedResult = currentInput;
+      let calculatedResult: number;
+      try {
+        calculatedResult = calculateResult(firstOperand, currentInput, operator);
+      } catch (err: any) {
+        calculatedResult = currentInput;
+        toast.error(err?.message || "An Error Occurred");
       }
 
       setResult(calculatedResult);
-      setCurrentInput(null);
       setPreviousInput(currentInput);
+      setCurrentInput(null);
 
       if (!chained) {
         setOperator(null);
@@ -100,6 +130,7 @@ const App: FC = () => {
   return (
     <div className="app">
       <div className="calculator">
+        <Toaster />
         <Display currentInput={currentInput} setCurrentInput={setCurrentInput} result={result} />
         <ButtonPanel
           setCurrentInput={setCurrentInput}
